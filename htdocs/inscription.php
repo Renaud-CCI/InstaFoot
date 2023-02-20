@@ -29,7 +29,7 @@
     $_SESSION['pseudo']=$_GET['pseudo'];
 
    echo "<form class='col-6 '
-   method='get' action='./linvisible/enregistrement-inscription.php'
+   method='post' action='./linvisible/enregistrement-inscription.php'
    enctype='multipart/form-data'>
  
    <div class='mb-3'>
