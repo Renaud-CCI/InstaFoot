@@ -3,7 +3,6 @@ session_start();
 include_once('./conexion.php');
 
 
-
 //--------------Préparation et enregistrement sur le serveur de la photo
 
 // récupération de l'extension de la photo (.jpeg, .png...)
@@ -26,6 +25,7 @@ else{
 
 
 
+
 // --------------Enregistrement du pseudo et de la phot en BDD
 $requete = $bdd -> prepare ("   INSERT INTO users(pseudo, photoProfile ) 
                                 VALUES (:pseudo,:photoProfile)");
@@ -34,7 +34,9 @@ $requete -> execute([
     "photoProfile"=> $photo
 ]);
 
+
 $_SESSION['photoProfile']=$photo;
 //---------------Redirection vers l'index
 header('Location: ../index.php');
+
 
