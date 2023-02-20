@@ -2,10 +2,6 @@
 session_start();
 include_once('./conexion.php');
 
-// echo"<br> FILES = ";
-// var_dump($_FILES);
-// echo"<br><br>";
-// die;
 
 //--------------Préparation et enregistrement sur le serveur de la photo
 
@@ -29,6 +25,7 @@ else{
 
 
 
+
 // --------------Enregistrement du pseudo et de la phot en BDD
 $requete = $bdd -> prepare ("   INSERT INTO users(pseudo, photoProfile ) 
                                 VALUES (:pseudo,:photoProfile)");
@@ -38,5 +35,8 @@ $requete -> execute([
 ]);
 
 
+$_SESSION['photoProfile']=$photo;
 //---------------Redirection vers l'index
 header('Location: ../index.php');
+
+
