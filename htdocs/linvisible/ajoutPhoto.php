@@ -1,6 +1,20 @@
 <?php
 session_start();
 include_once('./conexion.php');
+var_dump($_SESSION);
+
+echo " <section class='container text-center align-items-center d-flex justify-content-center'>
+<div class='col-6 text-center'> 
+  <form method='post' action='' enctype='multipart/form-data'>
+    <div class='mb-3'>
+      <label for='photo' class='form-label'>Importer une photo</label>
+      <input name='photo' type='file' class='form-control' id='photo' >
+    </div>
+    <button type='submit' class='btn btn-primary'>Valider</button>
+  </form>
+</div>
+</section>";
+die;
 
 
 
@@ -63,5 +77,3 @@ else
     header('Location: ../index.php');
 
 }
-
-

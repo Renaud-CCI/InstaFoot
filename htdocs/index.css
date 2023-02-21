@@ -1,0 +1,9 @@
+.photoProfile {
+    width : 3vw;
+    min-height:3vw;
+    border-radius :50%;
+}
+
+#ajoutPhotoLien{
+    color:#8a3ab9;
+}
