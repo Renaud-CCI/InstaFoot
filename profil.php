@@ -1,5 +1,16 @@
 <?php 
 session_start();
+include_once('./linvisible/conexion.php');
+// 'Pseudo existe!' on rempli la $_SESSION et on renvoie à l'index
+    $req = $bdd->prepare("SELECT * FROM  users WHERE (id) = :id");
+$req->execute([ 'id' => ($_GET['id'])
+]);
+//------- afichage des colone de pseudo 
+$resultas= $req -> fetch() ;
+ $_nom=$resultas['pseudo'];
+ $_photo=$resultas['photoProfile'];
+ $_id=$resultas['id'];
+
 
  
 ?>
@@ -23,7 +34,7 @@ session_start();
         <div class="flex justify-between h-16">
           <div class="flex px-2 lg:px-0">
             <div class="flex-shrink-0 flex items-center">
-              <h1>insta foot </h1>
+              <a href="./index.php"><h1>insta foot </h1></a>
             
               
              
@@ -170,8 +181,7 @@ session_start();
                 >
                   <img
                     class="h-8 w-8 rounded-full"
-                    src="https://scontent-muc2-1.cdninstagram.com/v/t51.2885-19/s150x150/58468664_291773768419326_7460980271920185344_n.jpg?_nc_ht=scontent-muc2-1.cdninstagram.com&amp;_nc_ohc=16Or2MWYINEAX9vLBW0&amp;oh=ada3818c35cb64180cf431d820d9dabe&amp;oe=5EF26035"
-                    alt
+                    src="<?= $_photo ?>s"
                   />
                 </button>
               </div>
@@ -187,7 +197,7 @@ session_start();
       <div class="flex md:flex-row-reverse flex-wrap">
         <div class="w-full md:w-3/4 p-4 text-center">
           <div class="text-left pl-4 pt-3">
-            <span class="text-base text-gray-700 text-2xl mr-2"><p><?= $_SESSION['pseudo']?></p></span>
+            <span class="text-base text-gray-700 text-2xl mr-2"><p><?= $_nom?></p></span>
             <span class="text-base font-semibold text-gray-700 mr-2">
              
             </span>
@@ -250,9 +260,8 @@ session_start();
             >
               <img
                 class="h-40 w-40 rounded-full"
-                src="https://scontent-muc2-1.cdninstagram.com/v/t51.2885-19/s150x150/58468664_291773768419326_7460980271920185344_n.jpg?_nc_ht=scontent-muc2-1.cdninstagram.com&amp;_nc_ohc=16Or2MWYINEAX9vLBW0&amp;oh=ada3818c35cb64180cf431d820d9dabe&amp;oe=5EF26035"
-                alt
-              />
+                 src="<?= $_photo ?>" 
+             />
             </button>
           </div>
         </div>
