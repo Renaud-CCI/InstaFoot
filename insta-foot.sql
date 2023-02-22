@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Feb 20, 2023 at 02:22 PM
+-- Generation Time: Feb 22, 2023 at 09:45 AM
 -- Server version: 10.6.11-MariaDB-1:10.6.11+maria~ubu2004-log
--- PHP Version: 8.1.13
+-- PHP Version: 8.1.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,8 +68,19 @@ CREATE TABLE `likes` (
 CREATE TABLE `photos` (
   `id` int(11) NOT NULL,
   `path` text NOT NULL,
+  `post` text NOT NULL,
+  `date` datetime NOT NULL,
   `idUser` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `photos`
+--
+
+INSERT INTO `photos` (`id`, `path`, `post`, `date`, `idUser`) VALUES
+(1, '../photosPosts/63f533054cab74.83426970.jpg', 'HEY COOL MAN !', '0000-00-00 00:00:00', 7),
+(2, '../photosPosts/63f53338095df4.70696843.png', 'ça fonctionne !', '0000-00-00 00:00:00', 7),
+(3, '../photosPosts/63f533deedf093.96592382.png', '3e essai', '2023-02-21 21:13:02', 7);
 
 -- --------------------------------------------------------
 
@@ -88,9 +99,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `pseudo`, `photoProfile`) VALUES
-(1, '0', '0'),
-(2, '0', '0'),
-(3, '0', '0');
+(5, '0', '0'),
+(6, 'renaud', '../photosProfil/63f38b26e0dc46.44920587.png'),
+(7, 'test', '../photosProfil/63f52ad778da32.90255087.jpg');
 
 --
 -- Indexes for dumped tables
@@ -152,13 +163,13 @@ ALTER TABLE `likes`
 -- AUTO_INCREMENT for table `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
