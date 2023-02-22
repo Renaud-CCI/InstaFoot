@@ -19,6 +19,17 @@
     border-radius :50%;
 }
 
+#deconnexion{
+    color: #8a3ab9;
+    text-decoration: none;
+    font-size: 1.8vh;
+}
+#deconnexion:hover{
+    color: #9f7ab4;
+    text-decoration: none;
+    font-size: 1.8vh;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@200&display=swap');
@@ -43,7 +54,7 @@
 }
 
 footer{
-    background-color: #8a3ab96e;
+    background-color: #9c6fb6cc;
     position:fixed;
    bottom:0px;  /* on le colle en bas */
    width:100%;

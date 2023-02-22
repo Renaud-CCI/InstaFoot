@@ -24,12 +24,12 @@ if (!isset($_SESSION['pseudo'])){
     <section id="topBar" class="container m-0">
         <form action="./profil.php" method="get">
             <input type="hidden" name='id' value=<?=$_SESSION['id']?>>
-            <button id="photoProfileButton" type="submit" class="d-flex p-2">
-                <img class="photoProfile" src="<?= $_SESSION['photoProfile']?>" alt="photo de profil"> 
-                <p><?= $_SESSION['pseudo']?></p>
+            <button id='photoProfileButton' type='submit' class='d-flex ps-2 pt-1 pb-0'>
+                <img class='photoProfile' src='<?= $_SESSION['photoProfile']?>' alt='photo de profil'> 
+                <p class= 'm-0 p-0 ps-2'><?= $_SESSION['pseudo']?></p>
             </button>
         </form>
-        <a href="./login.php">Se deconnecter</a>
+        <a id="deconnexion" href="./login.php">Log Out</a>
     </section>
 
     <section id="affichagePosts">
