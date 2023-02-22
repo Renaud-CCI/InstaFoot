@@ -29,6 +29,10 @@
     font-weight: 500;
 }
 
+.postDiv{
+    margin-bottom : 20px;
+}
+
 
 .postPhoto{
     width: 100vh;
@@ -36,8 +40,8 @@
 
 footer{
     background-color: #8a3ab96e;
-    position:absolute;
-   bottom:0;  /* on le colle en bas */
+    position:fixed;
+   bottom:0px;  /* on le colle en bas */
    width:100%;
    min-height:4vh;   /* Hauteur du pied de page */
 }

@@ -15,7 +15,7 @@ if (!isset($_SESSION['pseudo'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/77138ed848.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./index.css">
     <title>Insta Foot</title>
 </head>
 
@@ -33,8 +33,17 @@ if (!isset($_SESSION['pseudo'])){
     </section>
 
     <section id="affichagePosts">
-        <?php require_once('./linvisible/affichagePosts.php')?>
-        <?php affichagePost(1);?>
+        <?php
+        include_once('./linvisible/conexion.php');
+        $req = $bdd->prepare("  SELECT id FROM photos
+                                WHERE photos.idUser = :idUser");
+        $req->execute([ 'idUser' => $_SESSION['id']]);
+        $postsToEcho = $req->fetchAll();
+        foreach($postsToEcho as $postToEcho){
+            require_once('./linvisible/affichagePosts.php');affichagePost($postToEcho['id']);
+        }
+        ?>
+        
 
     </section>
 
