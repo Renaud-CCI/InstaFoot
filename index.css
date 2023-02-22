@@ -33,6 +33,10 @@
     margin-bottom : 20px;
 }
 
+#delay{
+    font-size:1vw
+}
+
 
 .postPhoto{
     width: 100vh;

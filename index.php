@@ -34,14 +34,9 @@ if (!isset($_SESSION['pseudo'])){
 
     <section id="affichagePosts">
         <?php
-        include_once('./linvisible/conexion.php');
-        $req = $bdd->prepare("  SELECT id FROM photos
-                                WHERE photos.idUser = :idUser");
-        $req->execute([ 'idUser' => $_SESSION['id']]);
-        $postsToEcho = $req->fetchAll();
-        foreach($postsToEcho as $postToEcho){
-            require_once('./linvisible/affichagePosts.php');affichagePost($postToEcho['id']);
-        }
+        require_once('./linvisible/affichagePosts.php');
+        affichagePost($_SESSION['id']);
+        
         ?>
         
 

@@ -11,12 +11,12 @@ function affichagePost($photoId){
     } catch (Exception $message) {
     echo "il y a un souci <br>" . "<pre>$message</pre>";
     }
-    //-------Création d'une liste d'id à afficher
-    $usersIds = [$_SESSION['id'],];
+    //-------Création d'une liste d'ids à afficher
+    $usersIds = [$photoId,];
 
     $req = $bdd->prepare("  SELECT abonnements.idAbonnement FROM abonnements
                             WHERE idAbonne = :idAbonne");
-    $req->execute([ 'idAbonne' => $_SESSION['id']]);
+    $req->execute([ 'idAbonne' => $photoId]);
     $usersIdsReq = $req->fetchAll();
     foreach($usersIdsReq as $userIdReq){
         $usersIds[] = $userIdReq['idAbonnement'];
@@ -34,27 +34,32 @@ function affichagePost($photoId){
                             ORDER BY date DESC");
     $req->execute();
     $postsToEcho = $req->fetchAll();
-
     
 
-    // -----Affichage du post----
+    // -----Affichage des posts----
     foreach ($postsToEcho as $postToEcho){
+        //Calcul du délai de post
+        $now = time();
+        $date2 = strtotime($postToEcho['date']);
+        require_once('./linvisible/calculDelaiPost.php');
+        $delay = dateDiff($now, $date2);
 
         echo "
         <div class='postDiv w-50 container rounded bg-light'>
-            <div class='row pseudoRow'>
-                <form action='./profil.php' method='get'>
+            <div class='row pseudoRow d-flex'>
+                <form action='./profil.php' method='get' class='pb-0'>
                     <input type='hidden' name='id' value={$postToEcho['idUser']}>
-                    <button id='photoProfileButton' type='submit' class='d-flex p-2'>
+                    <button id='photoProfileButton' type='submit' class='d-flex ps-2 pt-1 pb-0'>
                         <img class='photoProfile' src='{$postToEcho['photoProfile']}' alt='photo de profil'> 
-                        <p>{$postToEcho['pseudo']}</p>
+                        <p class= 'm-0 p-0 ps-2'>{$postToEcho['pseudo']}</p>
                     </button>
                 </form>
+                <p id='delay' class='mb-1'>Posté il y a {$delay}</p>
             </div>
             <div class='row photoRow'>
                 <img class='postPhoto' src='{$postToEcho['path']}' alt=''>
             </div>
-            <div class='row postRow'>
+            <div class='row postRow ps-3 sp-2'>
                 {$postToEcho['post']}
             </div>
         </div>

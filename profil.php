@@ -2,14 +2,24 @@
 session_start();
 include_once('./linvisible/conexion.php');
 // 'Pseudo existe!' on rempli la $_SESSION et on renvoie à l'index
-    $req = $bdd->prepare("SELECT * FROM  users WHERE (id) = :id");
-$req->execute([ 'id' => ($_GET['id'])
-]);
+$req = $bdd->prepare("SELECT * FROM  users WHERE (id) = :id");
+$req->execute([ 'id' => ($_GET['id'])]);
+
 //------- afichage des colone de pseudo 
 $resultas= $req -> fetch() ;
  $_nom=$resultas['pseudo'];
  $_photo=$resultas['photoProfile'];
  $_id=$resultas['id'];
+
+//--------Recherche et incrementation du nombre de posts
+$req = $bdd->prepare("SELECT count(id) FROM photos 
+                      WHERE idUser = :idUser");
+$req->execute([ 'idUser' => ($_GET['id'])
+]);
+
+$postsCountArray= $req -> fetch();
+$postsCount = $postsCountArray['count(id)'];
+
 
 
  
@@ -181,7 +191,7 @@ $resultas= $req -> fetch() ;
                 >
                   <img
                     class="h-8 w-8 rounded-full"
-                    src="<?= $_photo ?>s"
+                    src="<?= $_photo ?>"
                   />
                 </button>
               </div>
@@ -226,7 +236,7 @@ $resultas= $req -> fetch() ;
 
           <div class="text-left pl-4 pt-3">
             <span class="text-base font-semibold text-gray-700 mr-2">
-              <b>220</b> posts
+              <b><?= $postsCount ?> </b> post(s)
             </span>
             <span class="text-base font-semibold text-gray-700 mr-2">
               <b>114</b> followers
@@ -237,7 +247,26 @@ $resultas= $req -> fetch() ;
           </div>
 
           <div class="text-left pl-4 pt-3">
-            <span class="text-lg font-bold text-gray-700 mr-2">Sonali Hirave</span>
+            <?php if($_SESSION['id']!=$_id){
+                require_once('./linvisible/functions.php');
+                if ($followed($_SESSION['id'], $_id)){
+                  $followAction = 'Suivi';
+                } else {
+                  $followAction = 'Suivre';
+                }
+                echo"
+                  <form action='./linvisible/enregistrement-followers.php' method='get'>
+                    <input type='hidden' name='idAbonne' value='{$_SESSION['id']}'>
+                    <input type='hidden' name='idAbonnement' value='{$_id}'>
+                    <input type='hidden' name='action' value='{$followAction}'>
+                    
+                    <button class='bg-purple-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full' type='submit'>
+                      {$followAction}
+                    </button> 
+                  </form>
+                ";
+            }  
+              ?>
           </div>
 
           <div class="text-left pl-4 pt-3">
