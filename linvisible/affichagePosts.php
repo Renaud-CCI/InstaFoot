@@ -11,6 +11,9 @@ function affichagePost($photoId){
     } catch (Exception $message) {
     echo "il y a un souci <br>" . "<pre>$message</pre>";
     }
+
+
+
     //-------Création d'une liste d'ids à afficher
     $usersIds = [$photoId,];
 
@@ -22,13 +25,10 @@ function affichagePost($photoId){
         $usersIds[] = $userIdReq['idAbonnement'];
     }
     $usersIdsStr = implode(',',$usersIds);
-    // var_dump($usersIds);
-    // echo"<br>";
-    // var_dump($usersIdsStr);
-    // die;
+ 
 
     // ------Preparation des variables à afficher
-    $req = $bdd->prepare("  SELECT * FROM photos
+    $req = $bdd->prepare("  SELECT *, photos.id as id FROM photos
                             JOIN users ON users.id = photos.idUser
                             WHERE photos.idUser IN ($usersIdsStr)
                             ORDER BY date DESC");
@@ -44,6 +44,7 @@ function affichagePost($photoId){
         require_once('./linvisible/calculDelaiPost.php');
         $delay = dateDiff($now, $date2);
 
+        //Affichage
         echo "
         <div class='postDiv w-50 container rounded bg-light'>
             <div class='row pseudoRow d-flex'>
@@ -62,6 +63,36 @@ function affichagePost($photoId){
             <div class='row postRow ps-3 sp-2'>
                 {$postToEcho['post']}
             </div>
+            <div class='comments row'>
+                <form class='col-6' method='get' action='../linvisible/enregistrement-commentaire.php'>
+                    <input type='hidden' name='id' value={$postToEcho['id']}>
+                    <input type='text' name='comment' placeholder='Commentaire'>
+                    <input type='submit' value='Commenter'>
+                </form>";
+                if (isset($_POST['idComment']) && $_POST['idComment'] != '' && $_POST['idComment'] == $postToEcho[0]){
+                    echo"
+                    <form class='col-6 text-end' method='post' action='./index.php'>
+                        <input type='hidden' name='idComment' value=''>
+                        <input type='submit' value='Masquer les commentaires'>
+                    </form>";
+                } else{
+                    echo"
+                    <form class='col-6 text-end' method='post' action='./index.php'>
+                        <input type='hidden' name='idComment' value={$postToEcho['id']}>
+                        <input type='submit' value='Afficher les commentaires'>
+                    </form>
+                ";
+                }
+                
+            echo"</div>";
+
+            //Si "afficher commentaires" on affiche les com de ce post
+            if (isset($_POST['idComment']) && $_POST['idComment'] == $postToEcho[0]){
+                require_once('./linvisible/affichageComments.php');
+                affichageComments($_POST['idComment']);
+            } 
+            
+            echo"
         </div>
         ";
     }
