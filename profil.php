@@ -20,6 +20,27 @@ $req->execute([ 'idUser' => ($_GET['id'])
 $postsCountArray= $req -> fetch();
 $postsCount = $postsCountArray['count(id)'];
 
+//--------Recherche et incrementation du nombre de  followers 
+$req = $bdd->prepare("SELECT count(id) FROM abonnements 
+                      WHERE idAbonne = :idAbonne");
+$req->execute([ 'idAbonne' => ($_GET['id'])
+]);
+
+$abonnecountArray= $req -> fetch();
+$abonneCount = $abonnecountArray['count(id)'];
+
+//--------Recherche et incrementation du nombre de  following
+$req = $bdd->prepare("SELECT count(id) FROM abonnements 
+                      WHERE idAbonnement = :idAbonnement");
+$req->execute([ 'idAbonnement' => ($_GET['id'])
+]);
+
+$abonnementcountArray= $req -> fetch();
+$abonnementCount = $abonnementcountArray['count(id)'];
+
+
+
+
 
 
  
@@ -239,10 +260,10 @@ $postsCount = $postsCountArray['count(id)'];
               <b><?= $postsCount ?> </b> post(s)
             </span>
             <span class="text-base font-semibold text-gray-700 mr-2">
-              <b>114</b> followers
+              <b><?= $abonneCount ?></b> followers
             </span>
             <span class="text-base font-semibold text-gray-700">
-              <b>200</b> following
+              <b><?php $abonnementCount ?></b> following
             </span>
           </div>
 
@@ -468,68 +489,39 @@ $postsCount = $postsCountArray['count(id)'];
         </div>
       </div>
 
-      <!--post images-->
+      <!--post images--> 
+      
+      
+       <div  style="column-count: 3;"> 
+        
+<?php
+//-------Création d'une liste de mes  poste  à afficher
 
-      <div class="flex pt-4">
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
+$req = $bdd->prepare("  SELECT path   FROM photos  
+                        WHERE  idUser = :idUser   ORDER BY date  DESC ");
+                        
+$req->execute([ 'idUser' => $_id]);
+$postArrays = $req->fetchAll();
+
+foreach($postArrays as $postArray){
+
+echo "
+<div class='flex-1 text-center px-4 py-2 m-2'>
+  <img
+    class=monpost
+    src='{$postArray['path']}' 
+  />
+</div>";
+}
+
+?>
+
+
+      
+
+      
       </div>
-
-      <div class="flex pt-4">
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
-      </div>
-
-      <div class="flex pt-4">
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
-        </div>
-        <div class="flex-1 text-center px-4 py-2 m-2">
-          <img
-            class="w-full"
-            src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-          />
+          
         </div>
       </div>
     </div>
