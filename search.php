@@ -32,14 +32,49 @@ if (!isset($_SESSION['pseudo'])){
         <a id="deconnexion" href="./login.php">Log Out</a>
     </section>
 
-    <section id="affichagePosts">
-        <?php
-        require_once('./linvisible/affichagePosts.php');
-        echo affichagePost($_SESSION['id']);
-        
-        ?>
-        
+    <section id="searchSection">
+        <div class="container text-center">
+            <form action="./search.php">
+                <label for="site-search">Chercher un abonné :</label>
+                <input type="search" id="site-search" name="q">
+                <button>Trouver</button>
+            </form>
+        </div>
+        <div class="container p-5">
+            <div class="col-4 p-2 offset-3">
+            <?php
+                if (isset($_GET['q'])){
+                    $dns = "mysql:host=127.0.0.1;dbname=insta-foot";
+                    $user = "root";
+                    $password = "";
 
+                    try {
+                        $bdd = new PDO ($dns,$user,$password);
+                    } catch (Exception $message) {
+                        echo "il y a un souci <br>" . "<pre>$message</pre>";
+                    }
+
+                    $req = $bdd->prepare("  SELECT * FROM users
+                                            WHERE pseudo LIKE :condition
+                                            ORDER BY pseudo");
+                    $req->execute(['condition' => "%{$_GET['q']}%"]);
+                    $searchResults = $req->fetchAll();
+                    
+                    foreach($searchResults as $searchResult){
+                        echo"
+                            <form action='./profil.php' method='get'>
+                                <input type='hidden' name='id' value={$searchResult['id']}>
+                                <button id='photoProfileButton' type='submit' class='d-flex ps-2 pt-1 pb-0'>
+                                    <img class='photoProfile' src='{$searchResult['photoProfile']}' alt='photo de profil'> 
+                                    <p class= 'm-0 p-0 ps-2'>{$searchResult['pseudo']}</p>
+                                </button>
+                            </form>
+                            ";
+                    }
+                }
+            ?>
+            </div>
+        </div>
     </section>
 
     <footer>
@@ -64,4 +99,3 @@ if (!isset($_SESSION['pseudo'])){
 
 </body>
 </html>
- 

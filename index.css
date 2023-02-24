@@ -70,6 +70,13 @@ footer{
 #ajoutPhotoIcone{
     font-size: 4vh;
 }
+#search{
+    color:#8a3ab9;
+}
+
+#searchIcone{
+    font-size: 3.5vh;
+}
 
 footer #photoProfileButton{
     border:none;
