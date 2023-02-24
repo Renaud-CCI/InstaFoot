@@ -35,7 +35,7 @@ if (!isset($_SESSION['pseudo'])){
     <section id="affichagePosts">
         <?php
         require_once('./linvisible/affichagePosts.php');
-        echo affichagePost($_SESSION['id']);
+        affichagePost($_SESSION['id']);
         
         ?>
         

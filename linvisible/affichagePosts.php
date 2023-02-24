@@ -35,7 +35,6 @@ function affichagePost($photoId){
     $req->execute();
     $postsToEcho = $req->fetchAll();
     
-    $stringAAfficher="";
     // -----Affichage des posts----
     foreach ($postsToEcho as $postToEcho){
         //Calcul du délai de post
@@ -45,7 +44,7 @@ function affichagePost($photoId){
         $delay = dateDiff($now, $date2);
 
         //Affichage
-        $stringAAfficher.= "
+        echo "
         <div class='postDiv w-50 container rounded bg-light'>
             <div class='row pseudoRow d-flex'>
                 <form action='./profil.php' method='get' class='pb-0'>
@@ -70,13 +69,13 @@ function affichagePost($photoId){
                     <input type='submit' value='Commenter'>
                 </form>";
                 if (isset($_POST['idComment']) && $_POST['idComment'] != '' && $_POST['idComment'] == $postToEcho[0]){
-                    $stringAAfficher.="
+                    echo"
                     <form class='col-6 text-end' method='post' action='./index.php'>
                         <input type='hidden' name='idComment' value=''>
                         <input type='submit' value='Masquer les commentaires'>
                     </form>";
                 } else{
-                    $stringAAfficher.="
+                    echo"
                     <form class='col-6 text-end' method='post' action='./index.php'>
                         <input type='hidden' name='idComment' value={$postToEcho['id']}>
                         <input type='submit' value='Afficher les commentaires'>
@@ -84,7 +83,7 @@ function affichagePost($photoId){
                 ";
                 }
                 
-                $stringAAfficher.="</div>";
+                echo"</div>";
 
             //Si "afficher commentaires" on affiche les com de ce post
             if (isset($_POST['idComment']) && $_POST['idComment'] == $postToEcho[0]){
@@ -92,10 +91,10 @@ function affichagePost($photoId){
                 affichageComments($_POST['idComment']);
             } 
             
-            $stringAAfficher.="
+            echo"
         </div>
         ";
     }
-    return $stringAAfficher;
+    
 }
 ?>
